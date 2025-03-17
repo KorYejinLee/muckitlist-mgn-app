@@ -1,8 +1,28 @@
-import { signup } from '@/app/actions/auth'
- 
+'use client'
+
 export function SignupForm() {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const formData = new FormData(event.currentTarget);
+    const name = formData.get('name');
+    const email = formData.get('email');
+    const nickname = formData.get('nickname');
+    const password = formData.get('password');
+
+    const response = await fetch('/api/auth/signup', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify( {name, email, nickname, password }),
+    });
+
+    const result = await response.json();
+    console.log(result);
+    
+  }
+  
   return (
-    <form action={signup}>
+    <form onSubmit={handleSubmit}>
       <div>
         <label htmlFor="name">Name</label>
         <input id="name" name="name" placeholder="Name" />
@@ -13,7 +33,7 @@ export function SignupForm() {
       </div>
       <div>
         <label htmlFor="nickname">Nicknme</label>
-        <input id="Nickname" name="Nickname" placeholder="NickName" />
+        <input id="nickname" name="nickname" placeholder="Nickname" />
       </div>
       <div>
         <label htmlFor="password">Password</label>
