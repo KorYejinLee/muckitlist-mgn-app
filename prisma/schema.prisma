@@ -1,0 +1,76 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         Int         @id @default(autoincrement())
+  email      String      @unique
+  password   String
+  nickname   String
+  image      String?
+  provider   String?
+  providerId String?
+  userType   UserType    @default(NORMAL)
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  deletedAt  DateTime?
+  Gathering  Gathering[] @relation("UserGatherings")
+
+  @@map("users")
+}
+
+enum UserType {
+  KAKAO
+  GOOGLE
+  NORMAL
+}
+
+model Gathering {
+  id                   Int             @id @default(autoincrement())
+  location             LocationType
+  type                 GatheringType
+  name                 String?
+  dateTime             DateTime
+  registrationEnd      DateTime
+  address1             String
+  address2             String
+  description          String?
+  openParticipantCount Int
+  participantCount     Int             @default(0)
+  capacity             Int
+  image                String?
+  createdBy            String?
+  createdAt            DateTime        @default(now())
+  canceledAt           DateTime?
+  status               GatheringStatus
+  users                User[]         @relation("UserGatherings")
+}
+
+enum GatheringStatus {
+  RECRUITING
+  RECRUITMENT_COMPLETED
+}
+
+enum GatheringType {
+  CAFE
+  RESTAURANT
+  PUB
+  VEGAN
+}
+
+enum LocationType {
+  SEOUL
+  GYEONGGI_DO
+  GANGWON_DO
+  CHUNGCHEONG_DO
+  JEOLLA_DO
+  GYEONGSANG_DO
+  JEJU_ISLAND
+}
+
+
