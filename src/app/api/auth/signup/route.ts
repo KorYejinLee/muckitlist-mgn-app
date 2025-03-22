@@ -1,13 +1,18 @@
 import { NextResponse } from 'next/server';
+import prisma from '@/lib/prisma';
 
 export async function POST(request: Request) {
+  const { email, nickname, password } = await request.json();
   try {
-    const { name, email, nickname, password } = await request.json();
-
-    console.log('Received signup data:', { name, email, nickname, password });
-
-    return NextResponse.json({ message: '사용자가 생성 되었습니다.' }, { status: 201 });
+    const user = await prisma.user.create({
+      data: {
+        email,
+        nickname,
+        password
+      }
+    });
+    return NextResponse.json({ message: '사용자가 생성' }, { status: 201 });
   } catch (error) {
-    return NextResponse.json({ message: '사용자 생성에 실패하였습니다.' }, { status: 500 });
+    return NextResponse.json({ message: '사용자 생성 실패' }, { status: 500 });
   }
 }
