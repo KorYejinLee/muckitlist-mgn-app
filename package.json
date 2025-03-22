@@ -9,7 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@nestjs/microservices": "^11.0.12",
     "@prisma/client": "^6.5.0",
+    "kafkajs": "^2.2.4",
     "next": "15.2.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
