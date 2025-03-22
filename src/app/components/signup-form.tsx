@@ -5,7 +5,6 @@ export function SignupForm() {
     event.preventDefault();
 
     const formData = new FormData(event.currentTarget);
-    const name = formData.get('name');
     const email = formData.get('email');
     const nickname = formData.get('nickname');
     const password = formData.get('password');
@@ -13,7 +12,7 @@ export function SignupForm() {
     const response = await fetch('/api/auth/signup', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify( {name, email, nickname, password }),
+      body: JSON.stringify( { email, nickname, password }),
     });
 
     const result = await response.json();
@@ -23,10 +22,6 @@ export function SignupForm() {
   
   return (
     <form onSubmit={handleSubmit}>
-      <div>
-        <label htmlFor="name">Name</label>
-        <input id="name" name="name" placeholder="Name" />
-      </div>
       <div>
         <label htmlFor="email">Email</label>
         <input id="email" name="email" type="email" placeholder="Email" />
